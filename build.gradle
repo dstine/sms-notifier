@@ -1,0 +1,71 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.amazonaws:aws-java-sdk-s3:1.11.179'
+    }
+}
+
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'org.apache.commons:commons-email:1.5'
+
+    compile 'com.amazonaws:aws-lambda-java-core:1.1.0'
+    compile 'com.amazonaws:aws-lambda-java-events:1.1.0'
+
+    runtime 'ch.qos.logback:logback-classic:1.2.3'
+    runtime 'ch.qos.logback:logback-core:1.2.3'
+}
+
+wrapper {
+  gradleVersion = '4.1'
+}
+
+// Create zip suitable for deployment to Lambda
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources              
+    into('lib') {
+        from configurations.runtime
+    }           
+}
+
+build.dependsOn buildZip
+
+// Propeties in CAPITALS set in GRADLE_USER_HOME/gradle.properties
+
+// Task to test sending
+task run(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.github.dstine.sms.SmsSender'
+
+    environment 'SMTP_USERNAME', SMTP_USERNAME
+    environment 'SMTP_PASSWORD', SMTP_PASSWORD
+    environment 'EMAIL_FROM', EMAIL_FROM
+    environment 'EMAIL_SUBJECT', EMAIL_SUBJECT
+    environment 'EMAIL_MSG_FORMAT', EMAIL_MSG_FORMAT
+    environment 'EMAIL_TO', EMAIL_TO
+}
+
+// Copy Lambda deployment zip to S3
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+task uploadToS3 {
+    File file     = file(buildZip.archivePath)
+    String bucket = S3_BUCKET
+    String key    = file.name
+
+    AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());
+    s3client.putObject(new PutObjectRequest(bucket, key, file));
+}
+
