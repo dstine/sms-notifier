@@ -12,9 +12,9 @@ import org.apache.commons.mail.SimpleEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SmsSender {
+public class EmailSender {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SmsSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailSender.class);
 
     public static void main(String[] args) {
         send();

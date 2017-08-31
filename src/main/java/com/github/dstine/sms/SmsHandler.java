@@ -9,7 +9,7 @@ public class SmsHandler implements RequestHandler<Void, Void> {
     @Override
     public Void handleRequest(Void v, Context context) {
         context.getLogger().log("Hello");
-        SmsSender.send();
+        EmailSender.send();
         return null;
     }
 }
