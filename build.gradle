@@ -46,7 +46,7 @@ build.dependsOn buildZip
 // Task to test sending
 task run(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.github.dstine.sms.SmsSender'
+    main = 'com.github.dstine.sms.EmailSender'
 
     environment 'SMTP_HOST', SMTP_HOST
     environment 'SMTP_USERNAME', SMTP_USERNAME

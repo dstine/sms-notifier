@@ -6,6 +6,9 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -33,6 +36,8 @@ public class EmailSender {
         String msgFormat = Helpers.getEnv("EMAIL_MSG_FORMAT");
         String to = Helpers.getEnv("EMAIL_TO");
 
+        List<String> recipients = Arrays.asList(to.split(","));
+
         try {
             Email email = new SimpleEmail();
             email.setHostName(host);
@@ -45,8 +50,11 @@ public class EmailSender {
             LocalTime lt = LocalTime.now(ZoneId.of("America/New_York")).truncatedTo(ChronoUnit.MINUTES);
             email.setMsg(String.format(msgFormat, lt));
 
-
-            email.addTo(to);
+            // Checked exceptions (EmailException) are not declared by functional interfaces
+            for (String recipient : recipients) {
+                email.addTo(recipient);
+                LOGGER.info("Added recipient " + recipient);
+            }
 
             email.send();
         } catch (EmailException e) {
