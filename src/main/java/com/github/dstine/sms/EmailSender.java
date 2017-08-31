@@ -25,13 +25,13 @@ public class EmailSender {
     public static void send() {
         LOGGER.info("Begin");
 
-        String host = getEnv("SMTP_HOST");
-        String username = getEnv("SMTP_USERNAME");
-        String password = getEnv("SMTP_PASSWORD");
-        String from = getEnv("EMAIL_FROM");
-        String subject = getEnv("EMAIL_SUBJECT");
-        String msgFormat = getEnv("EMAIL_MSG_FORMAT");
-        String to = getEnv("EMAIL_TO");
+        String host = Helpers.getEnv("SMTP_HOST");
+        String username = Helpers.getEnv("SMTP_USERNAME");
+        String password = Helpers.getEnv("SMTP_PASSWORD");
+        String from = Helpers.getEnv("EMAIL_FROM");
+        String subject = Helpers.getEnv("EMAIL_SUBJECT");
+        String msgFormat = Helpers.getEnv("EMAIL_MSG_FORMAT");
+        String to = Helpers.getEnv("EMAIL_TO");
 
         try {
             Email email = new SimpleEmail();
@@ -54,14 +54,6 @@ public class EmailSender {
         }
 
         LOGGER.info("End");
-    }
-
-    private static String getEnv(String key) {
-        String value = System.getenv(key);
-        if (value == null || "".equals(value)) {
-            throw new RuntimeException(String.format("Environment variable %s must be set", key));
-        }
-        return value;
     }
 }
 
