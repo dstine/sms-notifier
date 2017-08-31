@@ -25,30 +25,43 @@ public class SmsSender {
 
         // https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server
 
-        String username = System.getenv("SMTP_USERNAME");
-        String password = System.getenv("SMTP_PASSWORD");
-        String from = System.getenv("EMAIL_FROM");
-        String subject = System.getenv("EMAIL_SUBJECT");
-        String msgFormat = System.getenv("EMAIL_MSG_FORMAT");
-        String to = System.getenv("EMAIL_TO");
+        String host = getEnv("SMTP_HOST");
+        String username = getEnv("SMTP_USERNAME");
+        String password = getEnv("SMTP_PASSWORD");
+        String from = getEnv("EMAIL_FROM");
+        String subject = getEnv("EMAIL_SUBJECT");
+        String msgFormat = getEnv("EMAIL_MSG_FORMAT");
+        String to = getEnv("EMAIL_TO");
 
         try {
             Email email = new SimpleEmail();
-            email.setHostName("smtp.gmail.com");
+            email.setHostName(host);
             email.setSmtpPort(465);
             email.setAuthenticator(new DefaultAuthenticator(username, password));
             email.setSSLOnConnect(true);
             email.setFrom(from);
             email.setSubject(subject);
+
             LocalTime lt = LocalTime.now(ZoneId.of("America/New_York")).truncatedTo(ChronoUnit.MINUTES);
             email.setMsg(String.format(msgFormat, lt));
+
+
             email.addTo(to);
+
             email.send();
         } catch (EmailException e) {
             throw new RuntimeException(e);
         }
 
         LOGGER.info("End");
+    }
+
+    private static String getEnv(String key) {
+        String value = System.getenv(key);
+        if (value == null || "".equals(value)) {
+            throw new RuntimeException(String.format("Environment variable %s must be set", key));
+        }
+        return value;
     }
 }
 

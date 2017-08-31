@@ -47,6 +47,7 @@ task run(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'com.github.dstine.sms.SmsSender'
 
+    environment 'SMTP_HOST', SMTP_HOST
     environment 'SMTP_USERNAME', SMTP_USERNAME
     environment 'SMTP_PASSWORD', SMTP_PASSWORD
     environment 'EMAIL_FROM', EMAIL_FROM
