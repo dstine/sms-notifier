@@ -66,7 +66,9 @@ task uploadToS3 {
     String bucket = S3_BUCKET
     String key    = file.name
 
-    AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());
-    s3client.putObject(new PutObjectRequest(bucket, key, file));
+    doLast {
+        AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());
+        s3client.putObject(new PutObjectRequest(bucket, key, file));
+    }
 }
 

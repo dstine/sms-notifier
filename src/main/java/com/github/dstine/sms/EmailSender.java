@@ -1,5 +1,7 @@
 package com.github.dstine.sms;
 
+import java.lang.invoke.MethodHandles;
+
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -14,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 public class EmailSender {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public static void main(String[] args) {
         send();
@@ -22,8 +24,6 @@ public class EmailSender {
 
     public static void send() {
         LOGGER.info("Begin");
-
-        // https://www.digitalocean.com/community/tutorials/how-to-use-google-s-smtp-server
 
         String host = getEnv("SMTP_HOST");
         String username = getEnv("SMTP_USERNAME");

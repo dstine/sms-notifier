@@ -8,8 +8,9 @@ public class SmsHandler implements RequestHandler<Void, Void> {
 
     @Override
     public Void handleRequest(Void v, Context context) {
-        context.getLogger().log("Hello");
+        context.getLogger().log("Hello" + System.lineSeparator());
         EmailSender.send();
+        context.getLogger().log("Goodbye" + System.lineSeparator());
         return null;
     }
 }
