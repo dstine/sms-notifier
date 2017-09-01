@@ -72,6 +72,22 @@ resource "aws_lambda_function" "sms_notf_run_lambda_function" {
   }
 }
 
+resource "aws_lambda_permission" "sms_notf_run_lambda_permission_on_hour" {
+  statement_id = "AllowExecutionFromCloudWatch-on-hour"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.sms_notf_run_lambda_function.function_name}"
+  principal = "events.amazonaws.com"
+  source_arn = "${aws_cloudwatch_event_rule.sms_notf_run_cloudwatch_event_rule_on_hour.arn}"
+}
+
+resource "aws_lambda_permission" "sms_notf_run_lambda_permission_on_half_hour" {
+  statement_id = "AllowExecutionFromCloudWatch-on-half-hour"
+  action = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.sms_notf_run_lambda_function.function_name}"
+  principal = "events.amazonaws.com"
+  source_arn = "${aws_cloudwatch_event_rule.sms_notf_run_cloudwatch_event_rule_on_half_hour.arn}"
+}
+
 resource "aws_cloudwatch_log_group" "sms_notf_run_cloudwatch_log_group" {
   name = "/aws/lambda/${var.aws_resource_name_run}"
 }
@@ -84,7 +100,7 @@ resource "aws_cloudwatch_event_rule" "sms_notf_run_cloudwatch_event_rule_on_hour
 
 resource "aws_cloudwatch_event_rule" "sms_notf_run_cloudwatch_event_rule_on_half_hour" {
   name = "${var.aws_resource_name_run}-on-half-hour"
-  description = "Triggers on the hour (:30)"
+  description = "Triggers on the half hour (:30)"
   schedule_expression = "${var.trigger_cron_on_half_hour}"
 }
 
