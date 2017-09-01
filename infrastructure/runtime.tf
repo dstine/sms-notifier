@@ -1,10 +1,6 @@
 // Manages infrastructure for running code
 // A lambda function and associated resources
 
-resource "aws_cloudwatch_log_group" "sms_notf_run_cloudwatch_log_group" {
-  name = "${var.aws_resource_name_run}"
-}
-
 resource "aws_iam_policy" "sms_notf_run_iam_policy" {
   name = "${var.aws_resource_name_run}"
   description = "Access for SMS Notifier Lambda function"
@@ -64,11 +60,20 @@ resource "aws_lambda_function" "sms_notf_run_lambda_function" {
   s3_key = "sms-notifier.zip"
   environment {
     variables = {
-      // TODO
-      FOO = "bar"
+      SMTP_HOST        = "${var.env_SMTP_HOST}"
+      SMTP_USERNAME    = "${var.env_SMTP_USERNAME}"
+      SMTP_PASSWORD    = "${var.env_SMTP_PASSWORD}"
+      EMAIL_SUBJECT    = "${var.env_EMAIL_SUBJECT}"
+      EMAIL_FROM       = "${var.env_EMAIL_FROM}"
+      EMAIL_MSG_FORMAT = "${var.env_EMAIL_MSG_FORMAT}"
+      EMAIL_TO         = "${var.env_EMAIL_TO}"
     }
   }
 }
 
 // TODO: CloudWatch resources
+
+resource "aws_cloudwatch_log_group" "sms_notf_run_cloudwatch_log_group" {
+  name = "/aws/lambda/${var.aws_resource_name_run}"
+}
 
