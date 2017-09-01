@@ -70,6 +70,9 @@ resource "aws_lambda_function" "sms_notf_run_lambda_function" {
       EMAIL_TO         = "${var.env_EMAIL_TO}"
     }
   }
+  tags {
+    terraform = "true"
+  }
 }
 
 resource "aws_lambda_permission" "sms_notf_run_lambda_permission_on_hour" {
@@ -90,6 +93,9 @@ resource "aws_lambda_permission" "sms_notf_run_lambda_permission_on_half_hour" {
 
 resource "aws_cloudwatch_log_group" "sms_notf_run_cloudwatch_log_group" {
   name = "/aws/lambda/${var.aws_resource_name_run}"
+  tags {
+    terraform = "true"
+  }
 }
 
 resource "aws_cloudwatch_event_rule" "sms_notf_run_cloudwatch_event_rule_on_hour" {
