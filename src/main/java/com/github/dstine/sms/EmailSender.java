@@ -36,7 +36,7 @@ public class EmailSender {
         String msgFormat = Helpers.getEnv("EMAIL_MSG_FORMAT");
         String to = Helpers.getEnv("EMAIL_TO");
 
-        List<String> recipients = Arrays.asList(to.split(","));
+        List<String> recipients = Arrays.asList(to.replaceAll(" ", "").split(","));
 
         try {
             Email email = new SimpleEmail();
