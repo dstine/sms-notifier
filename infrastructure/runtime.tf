@@ -1,3 +1,6 @@
+// Manages infrastructure for running code
+// A lambda function and associated resources
+
 resource "aws_cloudwatch_log_group" "sms_notf_run_cloudwatch_log_group" {
   name = "${var.aws_resource_name_run}"
 }
@@ -66,4 +69,6 @@ resource "aws_lambda_function" "sms_notf_run_lambda_function" {
     }
   }
 }
+
+// TODO: CloudWatch resources
 

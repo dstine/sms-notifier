@@ -1,3 +1,8 @@
+// Manages infrastructure for deploying code updates
+// A user with ability to push code to S3
+
+// TODO: create S3 bucket
+
 resource "aws_iam_user" "sms_notf_deploy_iam_user" {
   name = "${var.aws_resource_name_deploy}"
   path = "/"
