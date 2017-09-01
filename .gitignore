@@ -1,3 +1,5 @@
+### Code
+
 # directories
 build
 .gradle
@@ -9,4 +11,10 @@ build
 *.ipr
 *.iws
 *.MF
+
+### Infrastructure
+.terraform
+*.tfstate
+*.tfstate.backup
+terraform.tfvars
 
