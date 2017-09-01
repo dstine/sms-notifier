@@ -73,7 +73,7 @@ resource "aws_lambda_function" "sms_notf_run_lambda_function" {
 }
 
 resource "aws_lambda_permission" "sms_notf_run_lambda_permission_on_hour" {
-  statement_id = "AllowExecutionFromCloudWatch-on-hour"
+  statement_id = "${var.aws_resource_name_run}-on-hour"
   action = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.sms_notf_run_lambda_function.function_name}"
   principal = "events.amazonaws.com"
@@ -81,7 +81,7 @@ resource "aws_lambda_permission" "sms_notf_run_lambda_permission_on_hour" {
 }
 
 resource "aws_lambda_permission" "sms_notf_run_lambda_permission_on_half_hour" {
-  statement_id = "AllowExecutionFromCloudWatch-on-half-hour"
+  statement_id = "${var.aws_resource_name_run}-on-half-hour"
   action = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.sms_notf_run_lambda_function.function_name}"
   principal = "events.amazonaws.com"
