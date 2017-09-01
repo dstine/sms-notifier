@@ -63,12 +63,13 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 task uploadToS3 {
-    File file     = file(buildZip.archivePath)
-    String bucket = S3_BUCKET
-    String key    = file.name
+    File file      = file(buildZip.archivePath)
+    String bucket  = S3_BUCKET
+    String key     = file.name
+    String profile = CREDENTIALS_PROFILE
 
     doLast {
-        AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider());
+        AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider(profile));
         s3client.putObject(new PutObjectRequest(bucket, key, file));
     }
 }
