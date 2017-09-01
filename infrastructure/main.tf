@@ -1,6 +1,11 @@
 terraform {
   required_version = "0.10.3"
-  // TODO: backend
+  backend "s3" {
+    bucket = "com.github.dstine.terraform"
+    key = "sms-notf.tfstate"
+    region = "us-east-1"
+    profile = "terraform-backend"
+  }
 }
 
 provider "aws" {
