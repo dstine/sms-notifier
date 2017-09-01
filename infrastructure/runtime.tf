@@ -72,9 +72,31 @@ resource "aws_lambda_function" "sms_notf_run_lambda_function" {
   }
 }
 
-// TODO: CloudWatch resources
-
 resource "aws_cloudwatch_log_group" "sms_notf_run_cloudwatch_log_group" {
   name = "/aws/lambda/${var.aws_resource_name_run}"
+}
+
+resource "aws_cloudwatch_event_rule" "sms_notf_run_cloudwatch_event_rule_on_hour" {
+  name = "${var.aws_resource_name_run}-on-hour"
+  description = "Triggers on the hour (:00)"
+  schedule_expression = "${var.trigger_cron_on_hour}"
+}
+
+resource "aws_cloudwatch_event_rule" "sms_notf_run_cloudwatch_event_rule_on_half_hour" {
+  name = "${var.aws_resource_name_run}-on-half-hour"
+  description = "Triggers on the hour (:30)"
+  schedule_expression = "${var.trigger_cron_on_half_hour}"
+}
+
+resource "aws_cloudwatch_event_target" "sms_notf_run_cloudwatch_event_target_on_hour" {
+  rule = "${aws_cloudwatch_event_rule.sms_notf_run_cloudwatch_event_rule_on_hour.name}"
+  target_id = "${aws_lambda_function.sms_notf_run_lambda_function.function_name}"
+  arn = "${aws_lambda_function.sms_notf_run_lambda_function.arn}"
+}
+
+resource "aws_cloudwatch_event_target" "sms_notf_run_cloudwatch_event_target_on_half_hour" {
+  rule = "${aws_cloudwatch_event_rule.sms_notf_run_cloudwatch_event_rule_on_half_hour.name}"
+  target_id = "${aws_lambda_function.sms_notf_run_lambda_function.function_name}"
+  arn = "${aws_lambda_function.sms_notf_run_lambda_function.arn}"
 }
 

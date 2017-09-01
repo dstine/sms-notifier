@@ -41,4 +41,10 @@ variable "env_EMAIL_MSG_FORMAT" {
 variable "env_EMAIL_TO" {
   type = "string"
 }
+variable "trigger_cron_on_hour" {
+  type = "string"
+}
+variable "trigger_cron_on_half_hour" {
+  type = "string"
+}
 
