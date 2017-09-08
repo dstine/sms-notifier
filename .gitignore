@@ -16,5 +16,6 @@ build
 .terraform
 *.tfstate
 *.tfstate.backup
+*.tfstate.*.backup
 terraform.tfvars
 
