@@ -1,4 +1,4 @@
-// Manages infrastructure for running code
+// Manages infrastructure for running application code
 // A lambda function and associated resources
 
 resource "aws_iam_policy" "sms_notf_run_iam_policy" {
@@ -17,7 +17,7 @@ resource "aws_iam_policy" "sms_notf_run_iam_policy" {
         "logs:PutLogEvents"
       ],
       "Resource": [
-        "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:/aws/lambda/${var.aws_resource_name_run}:*"
+        "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:${aws_cloudwatch_log_group.sms_notf_run_cloudwatch_log_group.name}:*"
       ]
     }
   ]

@@ -1,4 +1,4 @@
-// Manages infrastructure for deploying code updates
+// Manages infrastructure for deploying application code updates
 // A user with ability to push code to S3
 
 // TODO: create S3 bucket
