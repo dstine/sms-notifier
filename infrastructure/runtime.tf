@@ -85,6 +85,9 @@ resource "aws_cloudwatch_log_group" "sms_notf_run" {
   }
 }
 
+// Number of module instances should match length of triggers variable
+// https://github.com/hashicorp/terraform/issues/953
+
 module "trigger0" {
   source            = "./trigger"
   id                = "0"
@@ -93,7 +96,6 @@ module "trigger0" {
   function_arn      = "${aws_lambda_function.sms_notf_run.arn}"
   cron_expression   = "${var.triggers[0]}"
 }
-
 
 module "trigger1" {
   source            = "./trigger"
@@ -104,3 +106,11 @@ module "trigger1" {
   cron_expression   = "${var.triggers[1]}"
 }
 
+module "trigger2" {
+  source            = "./trigger"
+  id                = "2"
+  aws_resource_name = "${var.aws_resource_name_run}"
+  function_name     = "${aws_lambda_function.sms_notf_run.function_name}"
+  function_arn      = "${aws_lambda_function.sms_notf_run.arn}"
+  cron_expression   = "${var.triggers[2]}"
+}
