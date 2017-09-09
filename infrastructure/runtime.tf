@@ -77,22 +77,6 @@ resource "aws_lambda_function" "sms_notf_run" {
   }
 }
 
-resource "aws_lambda_permission" "sms_notf_run_on_hour" {
-  statement_id  = "${var.aws_resource_name_run}-on-hour"
-  action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.sms_notf_run.function_name}"
-  principal     = "events.amazonaws.com"
-  source_arn    = "${aws_cloudwatch_event_rule.sms_notf_run_on_hour.arn}"
-}
-
-resource "aws_lambda_permission" "sms_notf_run_on_half_hour" {
-  statement_id  = "${var.aws_resource_name_run}-on-half-hour"
-  action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.sms_notf_run.function_name}"
-  principal     = "events.amazonaws.com"
-  source_arn    = "${aws_cloudwatch_event_rule.sms_notf_run_on_half_hour.arn}"
-}
-
 resource "aws_cloudwatch_log_group" "sms_notf_run" {
   name = "/aws/lambda/${var.aws_resource_name_run}"
 
@@ -101,26 +85,22 @@ resource "aws_cloudwatch_log_group" "sms_notf_run" {
   }
 }
 
-resource "aws_cloudwatch_event_rule" "sms_notf_run_on_hour" {
-  name                = "${var.aws_resource_name_run}-on-hour"
-  description         = "Triggers on the hour (:00)"
-  schedule_expression = "${var.trigger_cron_on_hour}"
+module "trigger0" {
+  source            = "./trigger"
+  id                = "0"
+  aws_resource_name = "${var.aws_resource_name_run}"
+  function_name     = "${aws_lambda_function.sms_notf_run.function_name}"
+  function_arn      = "${aws_lambda_function.sms_notf_run.arn}"
+  cron_expression   = "${var.triggers[0]}"
 }
 
-resource "aws_cloudwatch_event_rule" "sms_notf_run_on_half_hour" {
-  name                = "${var.aws_resource_name_run}-on-half-hour"
-  description         = "Triggers on the half hour (:30)"
-  schedule_expression = "${var.trigger_cron_on_half_hour}"
+
+module "trigger1" {
+  source            = "./trigger"
+  id                = "1"
+  aws_resource_name = "${var.aws_resource_name_run}"
+  function_name     = "${aws_lambda_function.sms_notf_run.function_name}"
+  function_arn      = "${aws_lambda_function.sms_notf_run.arn}"
+  cron_expression   = "${var.triggers[1]}"
 }
 
-resource "aws_cloudwatch_event_target" "sms_notf_run_on_hour" {
-  rule      = "${aws_cloudwatch_event_rule.sms_notf_run_on_hour.name}"
-  target_id = "${aws_lambda_function.sms_notf_run.function_name}"
-  arn       = "${aws_lambda_function.sms_notf_run.arn}"
-}
-
-resource "aws_cloudwatch_event_target" "sms_notf_run_on_half_hour" {
-  rule      = "${aws_cloudwatch_event_rule.sms_notf_run_on_half_hour.name}"
-  target_id = "${aws_lambda_function.sms_notf_run.function_name}"
-  arn       = "${aws_lambda_function.sms_notf_run.arn}"
-}
