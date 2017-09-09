@@ -1,5 +1,5 @@
 terraform {
-  required_version = "0.10.3"
+  required_version = "0.10.4"
 
   backend "s3" {
     bucket  = "com.github.dstine.terraform"
