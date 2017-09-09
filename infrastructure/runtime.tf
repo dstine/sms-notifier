@@ -94,7 +94,7 @@ module "trigger0" {
   aws_resource_name = "${var.aws_resource_name_run}"
   function_name     = "${aws_lambda_function.sms_notf_run.function_name}"
   function_arn      = "${aws_lambda_function.sms_notf_run.arn}"
-  cron_expression   = "${var.triggers[0]}"
+  cron_expressions  = "${var.triggers}"
 }
 
 module "trigger1" {
@@ -103,7 +103,7 @@ module "trigger1" {
   aws_resource_name = "${var.aws_resource_name_run}"
   function_name     = "${aws_lambda_function.sms_notf_run.function_name}"
   function_arn      = "${aws_lambda_function.sms_notf_run.arn}"
-  cron_expression   = "${var.triggers[1]}"
+  cron_expressions  = "${var.triggers}"
 }
 
 module "trigger2" {
@@ -112,5 +112,5 @@ module "trigger2" {
   aws_resource_name = "${var.aws_resource_name_run}"
   function_name     = "${aws_lambda_function.sms_notf_run.function_name}"
   function_arn      = "${aws_lambda_function.sms_notf_run.arn}"
-  cron_expression   = "${var.triggers[2]}"
+  cron_expressions  = "${var.triggers}"
 }

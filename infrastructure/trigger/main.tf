@@ -14,14 +14,14 @@ variable "function_arn" {
   type = "string"
 }
 
-variable "cron_expression" {
-  type = "string"
+variable "cron_expressions" {
+  type = "map"
 }
 
 resource "aws_cloudwatch_event_rule" "sms_notf_run" {
   name                = "${var.aws_resource_name}-${var.id}"
   description         = "Trigger ${var.id}"
-  schedule_expression = "${var.cron_expression}"
+  schedule_expression = "${lookup(var.cron_expressions, var.id)}"
 }
 
 resource "aws_cloudwatch_event_target" "sms_notf_run" {

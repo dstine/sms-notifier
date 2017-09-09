@@ -51,5 +51,5 @@ variable "env_EMAIL_TO" {
 }
 
 variable "triggers" {
-  type = "list"
+  type = "map"
 }
