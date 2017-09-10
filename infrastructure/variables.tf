@@ -11,7 +11,7 @@ variable "aws_resource_name_deploy" {
   default = "sms-notf-deploy"
 }
 
-variable "s3_bucket_name" {
+variable "deploy_bucket_name" {
   type = "string"
 }
 

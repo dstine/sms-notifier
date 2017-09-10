@@ -57,7 +57,7 @@ resource "aws_lambda_function" "sms_notf_run" {
   handler       = "com.github.dstine.sms.SmsHandler::handleRequest"
   runtime       = "java8"
   timeout       = "30"
-  s3_bucket     = "${var.s3_bucket_name}"
+  s3_bucket     = "${var.deploy_bucket_name}"
   s3_key        = "sms-notifier.zip"
 
   environment {

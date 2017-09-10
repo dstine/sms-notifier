@@ -1,7 +1,18 @@
 // Manages infrastructure for deploying application code updates
 // A user with ability to push code to S3
 
-// TODO: create S3 bucket
+resource "aws_s3_bucket" "sms_notf_deploy" {
+  bucket = "${var.deploy_bucket_name}"
+  acl    = "private"
+
+  lifecycle {
+    prevent_destroy = "true"
+  }
+
+  tags {
+    terraform = "true"
+  }
+}
 
 resource "aws_iam_user" "sms_notf_deploy" {
   name = "${var.aws_resource_name_deploy}"
@@ -41,8 +52,8 @@ resource "aws_iam_policy" "sms_notf_deploy" {
         "s3:*"
       ],
       "Resource": [
-        "arn:aws:s3:::${var.s3_bucket_name}",
-        "arn:aws:s3:::${var.s3_bucket_name}/*"
+        "arn:aws:s3:::${var.deploy_bucket_name}",
+        "arn:aws:s3:::${var.deploy_bucket_name}/*"
       ]
     }
   ]
