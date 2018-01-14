@@ -1,5 +1,5 @@
 terraform {
-  required_version = "0.10.4"
+  required_version = "0.11.2"
 
   backend "s3" {
     bucket  = "com.github.dstine.terraform"
@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  version = "0.1.4"
+  version = "1.7.0"
   region  = "us-east-1"
   profile = "${var.aws_credentials_profile}"
 }
