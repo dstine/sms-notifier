@@ -42,7 +42,11 @@ variable "env_EMAIL_SUBJECT" {
   type = "string"
 }
 
-variable "env_EMAIL_MSG_FORMAT" {
+variable "env_EMAIL_MSG_FORMAT_012" {
+  type = "string"
+}
+
+variable "env_EMAIL_MSG_FORMAT_3" {
   type = "string"
 }
 
