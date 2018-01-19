@@ -44,7 +44,7 @@ build.dependsOn buildZip
 // Propeties in CAPITALS set in GRADLE_USER_HOME/gradle.properties
 
 // Task to test sending
-task run(type: JavaExec) {
+task sendEmail(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'com.github.dstine.sms.EmailSender'
 
@@ -56,6 +56,8 @@ task run(type: JavaExec) {
     environment 'EMAIL_MSG_FORMAT', EMAIL_MSG_FORMAT
     environment 'EMAIL_TO', EMAIL_TO
 }
+
+// TODO: task to test lambda invocation with SAM Local
 
 // Copy Lambda deployment zip to S3
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
