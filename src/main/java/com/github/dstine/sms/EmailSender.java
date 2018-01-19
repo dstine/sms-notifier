@@ -22,10 +22,10 @@ public class EmailSender {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public static void main(String[] args) {
-        send();
+        send("default message");
     }
 
-    public static void send() {
+    public static void send(String msgFormat) {
         LOGGER.info("Begin");
 
         String host = Helpers.getEnv("SMTP_HOST");
@@ -33,7 +33,6 @@ public class EmailSender {
         String password = Helpers.getEnv("SMTP_PASSWORD");
         String from = Helpers.getEnv("EMAIL_FROM");
         String subject = Helpers.getEnv("EMAIL_SUBJECT");
-        String msgFormat = Helpers.getEnv("EMAIL_MSG_FORMAT");
         String to = Helpers.getEnv("EMAIL_TO");
 
         List<String> recipients = Arrays.asList(to.replaceAll(" ", "").split(","));
