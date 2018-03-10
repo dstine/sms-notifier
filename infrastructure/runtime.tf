@@ -19,6 +19,13 @@ resource "aws_iam_policy" "sms_notf_run" {
       "Resource": [
         "arn:aws:logs:us-east-1:${data.aws_caller_identity.current.account_id}:log-group:${aws_cloudwatch_log_group.sms_notf_run.name}:*"
       ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:PutMetricData"
+      ],
+      "Resource": "*"
     }
   ]
 }
@@ -56,7 +63,8 @@ resource "aws_lambda_function" "sms_notf_run" {
   role          = "${aws_iam_role.sms_notf_run.arn}"
   handler       = "com.github.dstine.sms.SmsHandler::handleRequest"
   runtime       = "java8"
-  timeout       = "30"
+  memory_size   = "256"
+  timeout       = "60"
   s3_bucket     = "${var.deploy_bucket_name}"
   s3_key        = "sms-notifier.zip"
 
