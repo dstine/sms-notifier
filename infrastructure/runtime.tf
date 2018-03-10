@@ -126,3 +126,13 @@ module "trigger3" {
   function_input    = "{ \"msgFormat\": \"${var.env_EMAIL_MSG_FORMAT_3}\" }"
   cron_expressions  = "${var.triggers}"
 }
+
+module "trigger4" {
+  source            = "./trigger"
+  id                = 4
+  aws_resource_name = "${var.aws_resource_name_run}"
+  function_name     = "${aws_lambda_function.sms_notf_run.function_name}"
+  function_arn      = "${aws_lambda_function.sms_notf_run.arn}"
+  function_input    = "{ \"msgFormat\": \"${var.env_EMAIL_MSG_FORMAT_4}\" }"
+  cron_expressions  = "${var.triggers}"
+}

@@ -50,6 +50,10 @@ variable "env_EMAIL_MSG_FORMAT_3" {
   type = "string"
 }
 
+variable "env_EMAIL_MSG_FORMAT_4" {
+  type = "string"
+}
+
 variable "env_EMAIL_TO" {
   type = "string"
 }
