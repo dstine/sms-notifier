@@ -10,6 +10,7 @@ resource "aws_s3_bucket" "sms_notf_deploy" {
   }
 
   tags {
+    project   = "sms-notifier"
     terraform = "true"
   }
 }

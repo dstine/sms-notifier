@@ -80,6 +80,7 @@ resource "aws_lambda_function" "sms_notf_run" {
   }
 
   tags {
+    project   = "sms-notifier"
     terraform = "true"
   }
 }
@@ -88,6 +89,7 @@ resource "aws_cloudwatch_log_group" "sms_notf_run" {
   name = "/aws/lambda/${var.aws_resource_name_run}"
 
   tags {
+    project   = "sms-notifier"
     terraform = "true"
   }
 }
