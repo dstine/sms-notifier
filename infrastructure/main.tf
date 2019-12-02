@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  version = "1.60.0"
+  version = "2.40.0"
   region  = "us-east-1"
   profile = "${var.aws_credentials_profile}"
 }
