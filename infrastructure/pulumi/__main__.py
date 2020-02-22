@@ -1,9 +1,29 @@
+import json
+
 import pulumi
-from pulumi_aws import s3
 
-# Create an AWS resource (S3 Bucket)
-bucket = s3.Bucket('my-bucket')
+from pulumi_aws import resourcegroups
 
-# Export the name of the bucket
-pulumi.export('bucket_name',  bucket.id)
+# Terraform-managed project is 'sms-notifier'
+project = 'sms-notfier-pulumi'
+
+tags = {
+    'project': project,
+}
+
+resource_query = {
+    'query': json.dumps({
+        "ResourceTypeFilters": [
+            "AWS::AllSupported"
+        ],
+        "TagFilters": [
+            {
+                "Key": "project",
+                "Values": [project]
+            }
+        ]
+    })
+}
+
+resourcegroups.Group(project, resource_query=resource_query, tags=tags)
 
