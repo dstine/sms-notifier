@@ -1,63 +1,63 @@
 // General
 
 variable "aws_credentials_profile" {
-  type = "string"
+  type = string
 }
 
 // Deploy time
 
 variable "aws_resource_name_deploy" {
-  type    = "string"
+  type    = string
   default = "sms-notf-deploy"
 }
 
 variable "deploy_bucket_name" {
-  type = "string"
+  type = string
 }
 
 // Run time
 
 variable "aws_resource_name_run" {
-  type    = "string"
+  type    = string
   default = "sms-notf-run"
 }
 
 variable "env_SMTP_HOST" {
-  type = "string"
+  type = string
 }
 
 variable "env_SMTP_USERNAME" {
-  type = "string"
+  type = string
 }
 
 variable "env_SMTP_PASSWORD" {
-  type = "string"
+  type = string
 }
 
 variable "env_EMAIL_FROM" {
-  type = "string"
+  type = string
 }
 
 variable "env_EMAIL_SUBJECT" {
-  type = "string"
+  type = string
 }
 
 variable "env_EMAIL_MSG_FORMAT_012" {
-  type = "string"
+  type = string
 }
 
 variable "env_EMAIL_MSG_FORMAT_3" {
-  type = "string"
+  type = string
 }
 
 variable "env_EMAIL_MSG_FORMAT_4" {
-  type = "string"
+  type = string
 }
 
 variable "env_EMAIL_TO" {
-  type = "string"
+  type = string
 }
 
 variable "triggers" {
-  type = "map"
+  type = map
 }
