@@ -96,7 +96,7 @@ resource "aws_cloudwatch_log_group" "sms_notf_run" {
 
 // Number of module instances should match length of triggers variable
 // https://github.com/hashicorp/terraform/issues/953
-
+/*
 module "trigger0" {
   source            = "./trigger"
   id                = "0"
@@ -126,7 +126,7 @@ module "trigger2" {
   function_input    = "{ \"msgFormat\": \"${var.env_EMAIL_MSG_FORMAT_012}\" }"
   cron_expressions  = "${var.triggers}"
 }
-
+*/
 module "trigger3" {
   source            = "./trigger"
   id                = 3
