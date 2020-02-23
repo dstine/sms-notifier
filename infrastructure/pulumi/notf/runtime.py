@@ -19,10 +19,8 @@ RESOURCE_NAME='sms-notf-run-pulumi'
 
 def create(deploy_bucket_name, tags):
 
-    # TODO: revisit this
     log_group_name = _create_cloudwatch_log_group(tags)
-    combined = pulumi.Output.all(log_group_name, tags)
-    role = combined.apply(lambda lst: _create_iam(lst[0], lst[1]))
+    role = log_group_name.apply(lambda lgn: _create_iam(lgn, tags))
 
     function = _create_lambda(deploy_bucket_name, role, tags)
 
