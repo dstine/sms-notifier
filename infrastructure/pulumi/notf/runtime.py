@@ -12,9 +12,9 @@ from pulumi_aws import lambda_
 
 import notf.config
 
-REGION='us-east-1'
-ACCOUNT_ID=aws.get_caller_identity().account_id
-RESOURCE_NAME='sms-notf-run-pulumi'
+REGION = 'us-east-1'
+ACCOUNT_ID = aws.get_caller_identity().account_id
+RESOURCE_NAME = 'sms-notf-run-pulumi'
 
 
 def create(deploy_bucket_name, tags):
