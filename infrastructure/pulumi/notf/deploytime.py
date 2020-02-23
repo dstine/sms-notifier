@@ -20,6 +20,7 @@ def _create_iam(deploy_bucket_name, tags):
     user = iam.User(
         RESOURCE_NAME,
         path='/',
+        tags=tags,
     )
 
     group = iam.Group(
