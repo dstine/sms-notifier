@@ -7,6 +7,7 @@ project = 'sms-notfier-pulumi'
 
 tags = {
     'project': project,
+    'infra-tool': 'pulumi',
 }
 
 notf.resources.create(project, tags)

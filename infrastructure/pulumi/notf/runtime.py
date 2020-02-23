@@ -130,7 +130,8 @@ def _create_trigger(id, lambda_fn, tags):
 
     event_rule = cloudwatch.EventRule(
         event_name,
-        schedule_expression=trigger['schedule']
+        schedule_expression=trigger['schedule'],
+        tags=tags,
     )
 
     event_target = cloudwatch.EventTarget(
