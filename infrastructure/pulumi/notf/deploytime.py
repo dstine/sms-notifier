@@ -3,6 +3,7 @@
 
 import json
 
+import pulumi
 from pulumi_aws import iam
 from pulumi_aws import s3
 
@@ -11,17 +12,20 @@ import notf.config
 RESOURCE_NAME = 'sms-notf-deploy-pulumi'
 
 
-def create(deploy_bucket_name, tags):
+def create(tags):
 
-    _create_s3(deploy_bucket_name, tags)
-    _create_iam(deploy_bucket_name, tags)
+    deploy_bucket_name = _create_s3(tags)
+    # TODO: upload Java code via dynamic provider
+    deploy_bucket_name.apply(lambda dbn: _create_iam(dbn, tags))
+    return deploy_bucket_name
 
 
-def _create_s3(deploy_bucket_name, tags):
+def _create_s3(tags):
 
     bucket = s3.Bucket(
         RESOURCE_NAME,
         acl='private',
+        force_destroy=True,
         tags=tags,
     )
 
@@ -33,6 +37,11 @@ def _create_s3(deploy_bucket_name, tags):
         ignore_public_acls=True,
         restrict_public_buckets=True,
     )
+
+    pulumi.export('bucket_name', bucket.bucket)
+    deploy_bucket_name = bucket.bucket
+    return deploy_bucket_name
+
 
 def _create_iam(deploy_bucket_name, tags):
 

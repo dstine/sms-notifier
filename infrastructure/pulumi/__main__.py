@@ -13,10 +13,7 @@ tags = {
 
 notf.resources.create(project, tags)
 
-# TODO: create bucket with Pulumi
-deploy_bucket_name = notf.config.DEPLOY_BUCKET_NAME
-
-notf.deploytime.create(deploy_bucket_name, tags)
+deploy_bucket_name = notf.deploytime.create(tags)
 
 notf.runtime.create(deploy_bucket_name, tags)
 
