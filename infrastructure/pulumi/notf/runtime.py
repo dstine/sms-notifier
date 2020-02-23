@@ -22,10 +22,10 @@ def create(deploy_bucket_name, tags):
     log_group_name = _create_cloudwatch_log_group(tags)
     role = log_group_name.apply(lambda lgn: _create_iam(lgn, tags))
 
-    function = _create_lambda(deploy_bucket_name, role, tags)
+    lambda_fn = _create_lambda(deploy_bucket_name, role, tags)
 
-    _create_trigger(3, function, tags)
-    _create_trigger(4, function, tags)
+    _create_trigger(3, lambda_fn, tags)
+    _create_trigger(4, lambda_fn, tags)
 
 
 def _create_cloudwatch_log_group(tags):
@@ -82,7 +82,7 @@ def _create_iam(log_group_name, tags):
 
 def _create_lambda(deploy_bucket_name, role, tags):
 
-    function = lambda_.Function(
+    lambda_fn = lambda_.Function(
         RESOURCE_NAME,
         role=role.arn,
         handler="com.github.dstine.sms.SmsHandler::handleRequest",
@@ -103,10 +103,10 @@ def _create_lambda(deploy_bucket_name, role, tags):
         },
         tags=tags,
     )
-    return function
+    return lambda_fn
 
 
-def _create_trigger(id, function, tags):
+def _create_trigger(id, lambda_fn, tags):
 
     trigger = notf.config.TRIGGERS[id]
     event_name = f'{RESOURCE_NAME}-{id}'
@@ -119,8 +119,8 @@ def _create_trigger(id, function, tags):
     event_target = cloudwatch.EventTarget(
         event_name,
         rule=event_rule,
-        target_id=function.name,
-        arn=function.arn,
+        target_id=lambda_fn.name,
+        arn=lambda_fn.arn,
         input=trigger['input'],
     )
 
@@ -128,7 +128,7 @@ def _create_trigger(id, function, tags):
         event_name, # RESOURCE_NAME?
         statement_id=event_name,
         action="lambda:InvokeFunction",
-        function=function,
+        function=lambda_fn,
         principal="events.amazonaws.com",
         source_arn=event_rule.arn,
     )
