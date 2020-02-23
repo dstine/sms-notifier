@@ -108,6 +108,7 @@ def _create_lambda(deploy_bucket_name, role, tags):
         timeout="60",
         s3_bucket=deploy_bucket_name,
         s3_key="sms-notifier.zip",
+        #filename="../../../build/distributions/sms-notifier.zip", # TODO: 'filename' not supported
         environment = {
             'variables': {
                 'SMTP_HOST':     notf.config.SMTP_HOST,

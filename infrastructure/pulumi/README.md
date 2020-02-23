@@ -20,7 +20,6 @@ $ pip install -r requirements.txt
 # TODO
 
 * Dynamic provider to upload Lambda zip file
-* Remove deploy time user entirely (?)
 * Use Pulumi configuration feature
 * Mark SMTP password as secret
 * Derive cron expressions
