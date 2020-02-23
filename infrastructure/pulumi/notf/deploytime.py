@@ -4,6 +4,7 @@
 import json
 
 from pulumi_aws import iam
+from pulumi_aws import s3
 
 import notf.config
 
@@ -12,8 +13,26 @@ RESOURCE_NAME = 'sms-notf-deploy-pulumi'
 
 def create(deploy_bucket_name, tags):
 
+    _create_s3(deploy_bucket_name, tags)
     _create_iam(deploy_bucket_name, tags)
 
+
+def _create_s3(deploy_bucket_name, tags):
+
+    bucket = s3.Bucket(
+        RESOURCE_NAME,
+        acl='private',
+        tags=tags,
+    )
+
+    s3.BucketPublicAccessBlock(
+        RESOURCE_NAME,
+        bucket=bucket,
+        block_public_acls=True,
+        block_public_policy=True,
+        ignore_public_acls=True,
+        restrict_public_buckets=True,
+    )
 
 def _create_iam(deploy_bucket_name, tags):
 
