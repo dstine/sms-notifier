@@ -6,13 +6,10 @@ export PULUMI_HOME='.pulumi'
 export PULUMI_SKIP_UPDATE_CHECK=true
 
 PULUMI_VERSION=1.11.0
-PULUMI_BIN=~/software/pulumi/pulumi-v${PULUMI_VERSION}
+PULUMI=~/software/pulumi/pulumi-v${PULUMI_VERSION}/pulumi
 
 AWS_PROFILE=terraform
 export AWS_PROFILE=${AWS_PROFILE}
-echo "AWS_PROFILE:" ${AWS_PROFILE}
-
-PULUMI=${PULUMI_BIN}/pulumi
 
 if [ -z $1 ]; then
   DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
