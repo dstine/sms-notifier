@@ -38,6 +38,7 @@ def _create_s3(tags):
     )
 
     pulumi.export('bucket_name', bucket.bucket)
+    pulumi.export('bucket_suffix', bucket.bucket.apply(lambda b: b.split('-')[-1]))
     deploy_bucket_name = bucket.bucket
     return deploy_bucket_name
 
