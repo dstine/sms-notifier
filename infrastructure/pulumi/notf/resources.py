@@ -18,5 +18,9 @@ def create(project, tags):
         })
     }
 
-    resourcegroups.Group(project, resource_query=resource_query, tags=tags)
+    resourcegroups.Group(
+        project,
+        resource_query=resource_query,
+        tags=tags
+    )
 

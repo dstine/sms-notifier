@@ -29,11 +29,17 @@ def create(deploy_bucket_name, tags):
 
 
 def _create_cloudwatch_log_group(tags):
-    log_group = cloudwatch.LogGroup(f'/aws/lambda/{RESOURCE_NAME}', tags=tags)
+
+    log_group = cloudwatch.LogGroup(
+        f'/aws/lambda/{RESOURCE_NAME}',
+        tags=tags
+    )
+
     return log_group.name
 
 
 def _create_iam(log_group_name, tags):
+
     policy = json.dumps({
         "Version": "2012-10-17",
         "Statement": [
@@ -57,7 +63,10 @@ def _create_iam(log_group_name, tags):
         ]
     })
 
-    iam_policy = iam.Policy(RESOURCE_NAME, path='/', policy=policy)
+    iam_policy = iam.Policy(
+        RESOURCE_NAME,
+        path='/',
+        policy=policy)
 
     assume_role_policy = json.dumps({
         "Version": "2008-10-17",
@@ -73,9 +82,17 @@ def _create_iam(log_group_name, tags):
         ]
     })
 
-    role = iam.Role(RESOURCE_NAME, assume_role_policy=assume_role_policy, tags=tags)
+    role = iam.Role(
+        RESOURCE_NAME,
+        assume_role_policy=assume_role_policy,
+        tags=tags
+    )
 
-    role_policy_attachment = iam.RolePolicyAttachment(RESOURCE_NAME, policy_arn=iam_policy.arn, role=role)
+    role_policy_attachment = iam.RolePolicyAttachment(
+        RESOURCE_NAME,
+        policy_arn=iam_policy.arn,
+        role=role
+    )
 
     return role
 
