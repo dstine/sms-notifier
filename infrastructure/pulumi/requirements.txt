@@ -1,2 +1,6 @@
 pulumi>=1.0.0
 pulumi-aws>=1.0.0
+pytz==2019.3
+
+pytest==5.3.5
+
