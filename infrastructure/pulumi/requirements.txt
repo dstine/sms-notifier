@@ -1,6 +1,10 @@
-pulumi>=1.0.0
-pulumi-aws>=1.0.0
+# TODO: transitive dependencies
+
+# runtime
+pulumi==1.11.0
+pulumi-aws==1.23.0
 pytz==2019.3
 
+# test
 pytest==5.3.5
 
