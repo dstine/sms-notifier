@@ -1,8 +1,7 @@
 import notf.resources
 import notf.runtime
 
-# Terraform-managed project is 'sms-notifier'
-project = 'sms-notifier-pulumi'
+project = 'sms-notifier'
 
 tags = {
     'project': project,

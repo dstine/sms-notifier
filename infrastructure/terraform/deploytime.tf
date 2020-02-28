@@ -5,10 +5,6 @@ resource "aws_s3_bucket" "sms_notf_deploy" {
   bucket = var.deploy_bucket_name
   acl    = "private"
 
-  lifecycle {
-    prevent_destroy = "true"
-  }
-
   tags = {
     project   = "sms-notifier"
     terraform = "true"
