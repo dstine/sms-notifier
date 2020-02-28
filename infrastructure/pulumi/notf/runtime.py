@@ -17,12 +17,12 @@ ACCOUNT_ID = aws.get_caller_identity().account_id
 RESOURCE_NAME = 'sms-notf-run-pulumi'
 
 
-def create(deploy_bucket_name, tags):
+def create(tags):
 
     log_group_name = _create_cloudwatch_log_group(tags)
     role = log_group_name.apply(lambda lgn: _create_iam(lgn, tags))
 
-    lambda_fn = _create_lambda(deploy_bucket_name, role, tags)
+    lambda_fn = _create_lambda(role, tags)
 
     for trigger in notf.config.TRIGGERS:
         _create_trigger(trigger, lambda_fn, tags)
@@ -97,7 +97,7 @@ def _create_iam(log_group_name, tags):
     return role
 
 
-def _create_lambda(deploy_bucket_name, role, tags):
+def _create_lambda(role, tags):
 
     lambda_fn = lambda_.Function(
         RESOURCE_NAME,
@@ -106,9 +106,7 @@ def _create_lambda(deploy_bucket_name, role, tags):
         runtime="java8",
         memory_size="256",
         timeout="60",
-        #s3_bucket=deploy_bucket_name,
-        #s3_key="sms-notifier.zip",
-        code="../../build/distributions/sms-notifier.zip", # TODO: 'filename' not supported
+        code="../../build/distributions/sms-notifier.zip", # TODO: better path computation
         environment = {
             'variables': {
                 'SMTP_HOST':     notf.config.SMTP_HOST,
