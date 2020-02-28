@@ -19,8 +19,6 @@ $ pip install -r requirements.txt
 
 # TODO
 
-* Dynamic provider to upload Lambda zip file
 * Use Pulumi configuration feature
 * Mark SMTP password as secret
-* Derive cron expressions
 
