@@ -24,8 +24,8 @@ def create(deploy_bucket_name, tags):
 
     lambda_fn = _create_lambda(deploy_bucket_name, role, tags)
 
-    _create_trigger(3, lambda_fn, tags)
-    _create_trigger(4, lambda_fn, tags)
+    for trigger in notf.config.TRIGGERS:
+        _create_trigger(trigger, lambda_fn, tags)
 
 
 def _create_cloudwatch_log_group(tags):
@@ -106,9 +106,9 @@ def _create_lambda(deploy_bucket_name, role, tags):
         runtime="java8",
         memory_size="256",
         timeout="60",
-        s3_bucket=deploy_bucket_name,
-        s3_key="sms-notifier.zip",
-        #filename="../../../build/distributions/sms-notifier.zip", # TODO: 'filename' not supported
+        #s3_bucket=deploy_bucket_name,
+        #s3_key="sms-notifier.zip",
+        code="../../build/distributions/sms-notifier.zip", # TODO: 'filename' not supported
         environment = {
             'variables': {
                 'SMTP_HOST':     notf.config.SMTP_HOST,
@@ -124,11 +124,10 @@ def _create_lambda(deploy_bucket_name, role, tags):
     return lambda_fn
 
 
-def _create_trigger(id, lambda_fn, tags):
+def _create_trigger(trigger, lambda_fn, tags):
 
-    trigger = notf.config.TRIGGERS[id]
+    id = trigger['id']
     event_name = f'{RESOURCE_NAME}-{id}'
-
     event_rule = cloudwatch.EventRule(
         event_name,
         schedule_expression=trigger['schedule'],
