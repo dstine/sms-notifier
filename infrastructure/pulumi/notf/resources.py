@@ -2,7 +2,7 @@ import json
 
 from pulumi_aws import resourcegroups
 
-def create(project, tags):
+def converge(project, tags):
 
     resource_query = {
         'query': json.dumps({

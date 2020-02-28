@@ -17,18 +17,18 @@ ACCOUNT_ID = aws.get_caller_identity().account_id
 RESOURCE_NAME = 'sms-notf-run-pulumi'
 
 
-def create(tags):
+def converge(tags):
 
-    log_group_name = _create_cloudwatch_log_group(tags)
-    role = log_group_name.apply(lambda lgn: _create_iam(lgn, tags))
+    log_group_name = _converge_cloudwatch_log_group(tags)
+    role = log_group_name.apply(lambda lgn: _converge_iam(lgn, tags))
 
-    lambda_fn = _create_lambda(role, tags)
+    lambda_fn = _converge_lambda(role, tags)
 
     for trigger in notf.config.TRIGGERS:
-        _create_trigger(trigger, lambda_fn, tags)
+        _converge_trigger(trigger, lambda_fn, tags)
 
 
-def _create_cloudwatch_log_group(tags):
+def _converge_cloudwatch_log_group(tags):
 
     log_group = cloudwatch.LogGroup(
         f'/aws/lambda/{RESOURCE_NAME}',
@@ -38,7 +38,7 @@ def _create_cloudwatch_log_group(tags):
     return log_group.name
 
 
-def _create_iam(log_group_name, tags):
+def _converge_iam(log_group_name, tags):
 
     policy = json.dumps({
         "Version": "2012-10-17",
@@ -97,7 +97,7 @@ def _create_iam(log_group_name, tags):
     return role
 
 
-def _create_lambda(role, tags):
+def _converge_lambda(role, tags):
 
     lambda_fn = lambda_.Function(
         RESOURCE_NAME,
@@ -122,7 +122,7 @@ def _create_lambda(role, tags):
     return lambda_fn
 
 
-def _create_trigger(trigger, lambda_fn, tags):
+def _converge_trigger(trigger, lambda_fn, tags):
 
     id = trigger['id']
     event_name = f'{RESOURCE_NAME}-{id}'

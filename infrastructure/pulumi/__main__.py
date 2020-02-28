@@ -9,7 +9,7 @@ tags = {
     'infra-tool': 'pulumi',
 }
 
-notf.resources.create(project, tags)
+notf.resources.converge(project, tags)
 
-notf.runtime.create(tags)
+notf.runtime.converge(tags)
 
