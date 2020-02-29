@@ -8,6 +8,7 @@ jobs:
     steps:
       - name: example
         run: echo 'Hello, everyone.'
+  build:
     name: App
     runs-on: ubuntu-latest
     steps:
