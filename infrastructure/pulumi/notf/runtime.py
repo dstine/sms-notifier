@@ -2,10 +2,12 @@
 # A lambda function and associated resources
 
 import json
+from typing import Dict
 
 import pulumi
 import pulumi_aws as aws
 
+from pulumi import Output
 from pulumi_aws import cloudwatch
 from pulumi_aws import iam
 from pulumi_aws import lambda_
@@ -17,7 +19,9 @@ ACCOUNT_ID = aws.get_caller_identity().account_id
 RESOURCE_NAME = 'sms-notf-run-pulumi'
 
 
-def converge(tags):
+def converge(
+        tags: Dict[str, str]
+        ) -> None:
 
     log_group_name = _converge_cloudwatch_log_group(tags)
     role = log_group_name.apply(lambda lgn: _converge_iam(lgn, tags))
@@ -28,7 +32,9 @@ def converge(tags):
         _converge_trigger(trigger, lambda_fn, tags)
 
 
-def _converge_cloudwatch_log_group(tags):
+def _converge_cloudwatch_log_group(
+        tags: Dict[str, str]
+        ) -> Output[str]:
 
     log_group = cloudwatch.LogGroup(
         f'/aws/lambda/{RESOURCE_NAME}',
@@ -38,7 +44,10 @@ def _converge_cloudwatch_log_group(tags):
     return log_group.name
 
 
-def _converge_iam(log_group_name, tags):
+def _converge_iam(
+        log_group_name: Output[str],
+        tags: Dict[str, str]
+        ) -> iam.Role:
 
     policy = json.dumps({
         "Version": "2012-10-17",
@@ -97,7 +106,10 @@ def _converge_iam(log_group_name, tags):
     return role
 
 
-def _converge_lambda(role, tags):
+def _converge_lambda(
+        role: iam.Role,
+        tags: Dict[str, str],
+        ) -> lambda_.Function:
 
     lambda_fn = lambda_.Function(
         RESOURCE_NAME,
@@ -122,7 +134,11 @@ def _converge_lambda(role, tags):
     return lambda_fn
 
 
-def _converge_trigger(trigger, lambda_fn, tags):
+def _converge_trigger(
+        trigger: Dict[str, str],
+        lambda_fn: lambda_.Function,
+        tags: Dict[str, str],
+        ) -> None:
 
     id = trigger['id']
     event_name = f'{RESOURCE_NAME}-{id}'
