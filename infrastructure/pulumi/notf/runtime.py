@@ -2,6 +2,7 @@
 # A lambda function and associated resources
 
 import json
+import os
 from typing import Dict
 
 import pulumi
@@ -17,6 +18,7 @@ import notf.config
 REGION = 'us-east-1'
 ACCOUNT_ID = aws.get_caller_identity().account_id
 RESOURCE_NAME = 'sms-notf'
+CODE_PROJECT_HOME = '../../'
 
 
 def converge(
@@ -115,6 +117,8 @@ def _converge_lambda(
         tags: Dict[str, str],
         ) -> lambda_.Function:
 
+    code_path = os.path.join(CODE_PROJECT_HOME, 'build/distributions', 'sms-notifier.zip')
+
     lambda_fn = lambda_.Function(
         RESOURCE_NAME,
         role=role.arn,
@@ -122,7 +126,7 @@ def _converge_lambda(
         runtime="java8",
         memory_size="256",
         timeout="60",
-        code="../../build/distributions/sms-notifier.zip", # TODO: better path computation
+        code=code_path,
         environment = {
             'variables': {
                 'SMTP_HOST':     notf.config.SMTP_HOST,
