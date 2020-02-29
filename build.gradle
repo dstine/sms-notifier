@@ -46,13 +46,13 @@ task sendEmail(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'com.github.dstine.sms.EmailSender'
 
-    environment 'SMTP_HOST', findProperty(SMTP_HOST)
-    environment 'SMTP_USERNAME', findProperty(SMTP_USERNAME)
-    environment 'SMTP_PASSWORD', findProperty(SMTP_PASSWORD)
-    environment 'EMAIL_FROM', findProperty(EMAIL_FROM)
-    environment 'EMAIL_SUBJECT', findProperty(EMAIL_SUBJECT)
-    environment 'EMAIL_MSG_FORMAT', findProperty(EMAIL_MSG_FORMAT)
-    environment 'EMAIL_TO', findProperty(EMAIL_TO)
+    environment 'SMTP_HOST', findProperty('SMTP_HOST')
+    environment 'SMTP_USERNAME', findProperty('SMTP_USERNAME')
+    environment 'SMTP_PASSWORD', findProperty('SMTP_PASSWORD')
+    environment 'EMAIL_FROM', findProperty('EMAIL_FROM')
+    environment 'EMAIL_SUBJECT', findProperty('EMAIL_SUBJECT')
+    environment 'EMAIL_MSG_FORMAT', findProperty('EMAIL_MSG_FORMAT')
+    environment 'EMAIL_TO', findProperty('EMAIL_TO')
 }
 
 // TODO: task to test lambda invocation with SAM Local
