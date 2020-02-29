@@ -28,16 +28,17 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: 3.7
-      - name: Change directory
-        run: cd infrastructure/pulumi
-      - name: Crate virtual environment
+      - name: Create virtual environment
         run: |
+          cd infrastructure/pulumi
           python -m venv venv
           source venv/bin/activate
       - name: Install dependencies
         run: |
-          pwd
+          cd infrastructure/pulumi
           pip install -r requirements.txt
       - name: Run tests
-        run: pytest
+        run: |
+          cd infrastructure/pulumi
+          pytest
 
