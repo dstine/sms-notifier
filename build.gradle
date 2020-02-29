@@ -2,10 +2,6 @@ buildscript {
     repositories {
         jcenter()
     }
-
-    dependencies {
-        classpath 'com.amazonaws:aws-java-sdk-s3:1.11.179'
-    }
 }
 
 apply plugin: 'java'
@@ -50,31 +46,14 @@ task sendEmail(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'com.github.dstine.sms.EmailSender'
 
-    environment 'SMTP_HOST', SMTP_HOST
-    environment 'SMTP_USERNAME', SMTP_USERNAME
-    environment 'SMTP_PASSWORD', SMTP_PASSWORD
-    environment 'EMAIL_FROM', EMAIL_FROM
-    environment 'EMAIL_SUBJECT', EMAIL_SUBJECT
-    environment 'EMAIL_MSG_FORMAT', EMAIL_MSG_FORMAT
-    environment 'EMAIL_TO', EMAIL_TO
+    environment 'SMTP_HOST', findProperty(SMTP_HOST)
+    environment 'SMTP_USERNAME', findProperty(SMTP_USERNAME)
+    environment 'SMTP_PASSWORD', findProperty(SMTP_PASSWORD)
+    environment 'EMAIL_FROM', findProperty(EMAIL_FROM)
+    environment 'EMAIL_SUBJECT', findProperty(EMAIL_SUBJECT)
+    environment 'EMAIL_MSG_FORMAT', findProperty(EMAIL_MSG_FORMAT)
+    environment 'EMAIL_TO', findProperty(EMAIL_TO)
 }
 
 // TODO: task to test lambda invocation with SAM Local
-
-// Copy Lambda deployment zip to S3
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-task uploadToS3 {
-    File file      = file(buildZip.archivePath)
-    String bucket  = S3_BUCKET
-    String key     = file.name
-    String profile = CREDENTIALS_PROFILE
-
-    doLast {
-        AmazonS3 s3client = new AmazonS3Client(new ProfileCredentialsProvider(profile));
-        s3client.putObject(new PutObjectRequest(bucket, key, file));
-    }
-}
 
