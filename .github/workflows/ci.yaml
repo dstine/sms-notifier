@@ -3,15 +3,11 @@ on: [push]
 
 jobs:
   build:
-    name: Example
+    name: App
     runs-on: ubuntu-latest
     steps:
       - name: example
         run: echo 'Hello, everyone.'
-  build:
-    name: App
-    runs-on: ubuntu-latest
-    steps:
       - name: Gradle
         run: ./gradlew build
 
