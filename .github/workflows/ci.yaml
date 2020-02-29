@@ -7,18 +7,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: JDK setup
+      - name: Setup JDK
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Gradle cache
+      - name: Cache Gradle cache
         uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Gradle build
+      - name: Run Gradle build
         run: ./gradlew build
+      - name: Publish test report
+        uses: actions/upload-artifact@v1
+        with:
+          name: test-report
+          path: build/reports/tests/test
   build-infra:
     name: Infra
     runs-on: ubuntu-latest
