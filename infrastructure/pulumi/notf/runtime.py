@@ -41,6 +41,8 @@ def _converge_cloudwatch_log_group(
         tags=tags
     )
 
+    pulumi.export('log_group_name', log_group.name)
+
     return log_group.name
 
 
@@ -103,6 +105,8 @@ def _converge_iam(
         role=role
     )
 
+    pulumi.export('role', role.name)
+
     return role
 
 
@@ -131,6 +135,9 @@ def _converge_lambda(
         },
         tags=tags,
     )
+
+    pulumi.export('lambda_name', lambda_fn.name)
+
     return lambda_fn
 
 
@@ -142,9 +149,11 @@ def _converge_trigger(
 
     id = trigger['id']
     event_name = f'{RESOURCE_NAME}-{id}'
+    cron_expression = trigger['schedule']
+
     event_rule = cloudwatch.EventRule(
         event_name,
-        schedule_expression=trigger['schedule'],
+        schedule_expression=cron_expression,
         tags=tags,
     )
 
@@ -164,4 +173,6 @@ def _converge_trigger(
         principal="events.amazonaws.com",
         source_arn=event_rule.arn,
     )
+
+    pulumi.export(event_name, cron_expression)
 
