@@ -1,11 +1,16 @@
-name: Example
+name: Build
 on: [push]
 
 jobs:
   build:
-    name: Hello
+    name: Example
     runs-on: ubuntu-latest
     steps:
-      - name: hello
-        run: echo 'Hello, Boston.'
+      - name: example
+        run: echo 'Hello, everyone.'
+    name: App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gradle
+        run: ./gradlew build
 
