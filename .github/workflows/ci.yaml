@@ -1,0 +1,11 @@
+name: Example
+on: [push]
+
+jobs:
+  build:
+    name: Hello
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello
+        run: echo 'Hello, Boston.'
+
