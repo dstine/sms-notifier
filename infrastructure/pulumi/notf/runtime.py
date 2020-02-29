@@ -16,7 +16,7 @@ import notf.config
 
 REGION = 'us-east-1'
 ACCOUNT_ID = aws.get_caller_identity().account_id
-RESOURCE_NAME = 'sms-notf-run-pulumi'
+RESOURCE_NAME = 'sms-notf'
 
 
 def converge(
