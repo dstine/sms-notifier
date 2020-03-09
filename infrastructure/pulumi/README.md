@@ -21,4 +21,6 @@ $ pip install -r requirements.txt
 
 * Use Pulumi configuration feature
 * Mark SMTP password as secret
+* Use custom component
+* Use Lambda Layer for libraries
 
