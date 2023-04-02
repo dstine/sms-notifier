@@ -11,17 +11,17 @@ repositories {
 }
 
 dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.25'
-    compile 'org.apache.commons:commons-email:1.5'
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'org.apache.commons:commons-email:1.5'
 
-    compile 'com.amazonaws:aws-lambda-java-core:1.1.0'
-    compile 'com.amazonaws:aws-lambda-java-events:1.1.0'
+    implementation 'com.amazonaws:aws-lambda-java-core:1.1.0'
+    implementation 'com.amazonaws:aws-lambda-java-events:1.1.0'
 
-    compile 'com.amazonaws:aws-java-sdk-cloudwatch:1.11.292'
+    implementation 'com.amazonaws:aws-java-sdk-cloudwatch:1.11.292'
 
-    runtime 'ch.qos.logback:logback-classic:1.2.3'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.2.3'
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }
 
 wrapper {
@@ -33,7 +33,7 @@ task buildZip(type: Zip) {
     from compileJava
     from processResources              
     into('lib') {
-        from configurations.runtime
+        from configurations.runtimeClasspath
     }           
 }
 
