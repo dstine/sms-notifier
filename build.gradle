@@ -1,13 +1,13 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 
 apply plugin: 'java'
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 java {
@@ -51,7 +51,7 @@ build.dependsOn buildZip
 // Task to test sending
 task sendEmail(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    main = 'com.github.dstine.sms.EmailSender'
+    mainClass = 'com.github.dstine.sms.EmailSender'
 
     environment 'SMTP_HOST', findProperty('SMTP_HOST')
     environment 'SMTP_USERNAME', findProperty('SMTP_USERNAME')
