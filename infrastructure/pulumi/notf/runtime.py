@@ -123,7 +123,7 @@ def _converge_lambda(
         RESOURCE_NAME,
         role=role.arn,
         handler="com.github.dstine.sms.SmsHandler::handleRequest",
-        runtime="java8",
+        runtime="java11",
         memory_size="256",
         timeout="60",
         code=code_path,

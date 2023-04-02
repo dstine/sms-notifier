@@ -10,6 +10,13 @@ repositories {
     jcenter()
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+        vendor = JvmVendorSpec.AMAZON
+    }
+}
+
 dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'org.apache.commons:commons-email:1.5'
