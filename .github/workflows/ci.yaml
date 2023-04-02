@@ -16,7 +16,7 @@ jobs:
       - name: Run Gradle build
         uses: gradle/gradle-build-action@v2.4.0
         with:
-          arguments clean build
+          arguments: clean build
       - name: Publish test report
         uses: actions/upload-artifact@v1
         with:
